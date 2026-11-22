@@ -13,7 +13,7 @@ bot = telebot.TeleBot(TOKEN)
 
 PRODUCTS = {
     "🏠 לבית": {
-        "🏠 הכל לבית": ["🏠 מוצר לבית\nhttps://temu.to/k/ellwn0to19t", "🏠 מוצר לבית 2\nhttps://temu.to/k/emd1zint14x"],
+        "🏠 הכל לבית": ["🏠 מוצר לבית\nhttps://temu.to/k/ellwn0to19t", "🏠 מוצר לבית 2\https://temu.to/k/erk5bu0qt22"],
     },
     "⚡ גאדג'טים": {
         "🎧 אוזניות": ["אין מוצרים עדיין - שלח לי קישור"],
