@@ -36,7 +36,6 @@ PRODUCTS = {
             "👦 ילדים": ["אין מוצרים עדיין - שלח לי קישור"],
             "👧 ילדות": [" https://temu.to/k/evqmc1bmmvz"],
         },
-    },"ביגוד",
         "👨 גברים": {
             "👔 חולצה": [" https://temu.to/k/egb5hatagrm","https://temu.to/k/e89xdhq53tg","https://share.temu.com/KXb8s0QeMDB","https://temu.to/k/eif8gvtiuo8"],
             "🩲 הלבשה תחתונה": ["אין מוצרים עדיין - שלח לי קישור"],
