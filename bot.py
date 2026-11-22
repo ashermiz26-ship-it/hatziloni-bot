@@ -39,7 +39,7 @@ PRODUCTS = {
     },
     "👕 ביגוד": {
         "👨 גברים": {
-            "👔 ביגוד": [" https://temu.to/k/egb5hatagrm"."https://temu.to/k/e89xdhq53tg","https://share.temu.com/KXb8s0QeMDB","https://temu.to/k/eif8gvtiuo8"],
+            "👔 ביגוד": [" https://temu.to/k/egb5hatagrm","https://temu.to/k/e89xdhq53tg","https://share.temu.com/KXb8s0QeMDB","https://temu.to/k/eif8gvtiuo8"],
             "🩲 הלבשה תחתונה": ["אין מוצרים עדיין - שלח לי קישור"],
             "🌙 פיג'מות": ["אין מוצרים עדיין - שלח לי קישור"],
         },
