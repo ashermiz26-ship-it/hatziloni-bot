@@ -1,7 +1,12 @@
 import os
 import telebot
 from telebot.types import ReplyKeyboardMarkup
-
+from flask import Flask
+import threading
+app = Flask(__name__)
+@app.route('/')
+def home():
+   return "Bot is alive! 🍆" 
 TOKEN = os.environ.get("TOKEN")
 CHANNEL = "@ashermiz26"
 bot = telebot.TeleBot(TOKEN)
@@ -205,4 +210,6 @@ def handle_all(message):
     bot.send_message(chat_id, "🍆 בחר קטגוריה למטה 👇", reply_markup=main_keyboard())
 
 print("דיל החצילוני רץ - עם מועדפים!")
+port = int(os.environ.get("PORT", 10000))
+threading.Thread(target=lambda: app.run(host="0.0.0.0", port=port)).start()
 bot.polling()
