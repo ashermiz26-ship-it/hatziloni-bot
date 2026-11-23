@@ -54,7 +54,7 @@ PRODUCTS = {
             "🩲 מוצר הלבשה\nhttps://temu.to/k/e11wn0to19t",
         ],
         "🌙 פיג'מות": [
-            "🌙 פיג'מה\nhttps://temu.to/k/e11wn0to19t",
+            "🌙 פיג'מה\ https://temu.to/k/ei5y4lvunf7","nhttps://temu.to/k/e11wn0to19t",
         ],
     },
     "👩 נשים": {
