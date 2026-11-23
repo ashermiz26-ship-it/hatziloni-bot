@@ -1,213 +1,138 @@
 import os
 import telebot
-from telebot.types import ReplyKeyboardMarkup
-from flask import Flask
-import threading
-app = Flask(__name__)
-@app.route('/')
-def home():
-   return "Bot is alive! 🍆" 
-TOKEN = os.environ.get("TOKEN")
-CHANNEL = "@ashermiz26"
+from telebot.types import ReplyKeyboardMarkup, KeyboardButton
+
+TOKEN = os.environ.get("BOT_TOKEN", "")
 bot = telebot.TeleBot(TOKEN)
 
 PRODUCTS = {
     "🏠 לבית": {
-        "🏠 הכל לבית": ["🏠 מוצר לבית\nhttps://temu.to/k/ellwn0to19t", "🏠 מוצר לבית 2\https://temu.to/k/erk5bu0qt22"],
+        "🏠 הכל לבית": [
+            "🏠 מוצר לבית\nhttps://temu.to/k/e11wn0to19t",
+            "🏠 מוצר לבית 2\nhttps://temu.to/k/erk5bu0qt22",
+        ],
     },
     "⚡ גאדג'טים": {
-        "🎧 אוזניות": ["אין מוצרים עדיין - שלח לי קישור"],
-        "📱 אביזרי פלאפון": ["אין מוצרים עדיין - שלח לי קישור"],
-        "🔌 מטענים": ["אין מוצרים עדיין - שלח לי קישור"],
-        "⚡ שאר גאדג'טים": ["⚡ גאדג'ט 1\nhttps://temu.to/k/e7y9tgcqb20", "⚡ גאדג'ט 2\nhttps://share.temu.com/vrHGir5OkFB", "⚡ גאדג'ט 3\nhttps://temu.to/k/e8n6khzwjxc", "⚡ גאדג'ט 4\nhttps://temu.to/k/ehq6vha7qg1", "⚡ גאדג'ט חדש\nhttps://temu.to/k/e108e8m7dwg"],
+        "⚡ הכל גאדג'טים": [
+            "⚡ מוצר גאדג'ט\nhttps://temu.to/k/e11wn0to19t",
+        ],
     },
     "🎮 משחקים": {
-        "🧩 פאזלים": ["אין מוצרים עדיין - שלח לי קישור"],
-        "🚗 מכוניות": ["🎮 משחק\nhttps://temu.to/k/eg5itx61e06"],
+        "🎮 הכל משחקים": [
+            "🎮 מוצר משחק\nhttps://temu.to/k/e11wn0to19t",
+        ],
     },
     "👟 נעליים": {
-        "👨 נעלי גברים": ["אין מוצרים עדיין - שלח לי קישור"],
-        "👩 נעלי נשים": ["אין מוצרים עדיין - שלח לי קישור"],
-        "👦 נעלי ילדים": ["אין מוצרים עדיין - שלח לי קישור"],
-        "👧 נעלי ילדות": ["אין מוצרים עדיין - שלח לי קישור"],
-        "🩴 נעלי בית": {
-            "👨 גברים": ["🩴 נעלי בית גברים\nhttps://temu.to/m/pk6b5qvstmr"],
-            "👩 נשים": ["אין מוצרים עדיין - שלח לי קישור"],
-            "👦 ילדים": ["אין מוצרים עדיין - שלח לי קישור"],
-            "👧 ילדות": [" https://temu.to/k/evqmc1bmmvz"],
-        },
-      "👕 ביגוד": {
-       "👨 גברים": {
-            "👔 חולצה": [" https://temu.to/k/egb5hatagrm","https://temu.to/k/e89xdhq53tg","https://share.temu.com/KXb8s0QeMDB","https://temu.to/k/eif8gvtiuo8"],
-            "🩲 הלבשה תחתונה": ["אין מוצרים עדיין - שלח לי קישור"],
-            "🌙 פיג'מות": ["אין מוצרים עדיין - שלח לי קישור"],
+        "👨 גברים": {
+            "👟 נעלי גברים": [
+                "👟 מוצר נעליים\nhttps://temu.to/k/e11wn0to19t",
+            ],
         },
         "👩 נשים": {
-            "👗 ביגוד": ["אין מוצרים עדיין - שלח לי קישור"],
-            "🩲 הלבשה תחתונה": ["אין מוצרים עדיין - שלח לי קישור"],
-            "🌙 פיג'מות": ["אין מוצרים עדיין - שלח לי קישור"],
-        },
-        "👦 ילדים": {
-            "👕 ביגוד": ["אין מוצרים עדיין - שלח לי קישור"],
-            "🩲 הלבשה תחתונה": ["אין מוצרים עדיין - שלח לי קישור"],
-            "🌙 פיג'מות": ["אין מוצרים עדיין - שלח לי קישור"],
-        },
-        "👧 ילדות": {
-            "👗 ביגוד": ["אין מוצרים עדיין - שלח לי קישור"],
-            "🩲 הלבשה תחתונה": ["אין מוצרים עדיין - שלח לי קישור"],
-            "🌙 פיג'מות": ["אין מוצרים עדיין - שלח לי קישור"],
+            "👟 נעלי נשים": [
+                "👟 מוצר נעליים\nhttps://temu.to/k/e11wn0to19t",
+            ],
         },
     },
+    "👨 גברים": {
+        "👔 חולצה": [
+            "👔 חולצה 1\nhttps://temu.to/k/egb5hatagrm",
+            "👔 חולצה אחורה\nhttps://temu.to/k/e89xdhq53tg",
+            "👔 חולצה 3\nhttps://share.temu.com/KXb8s0QeMDB",
+            "👔 חולצה 4\nhttps://temu.to/k/eif8gvtiuo8",
+        ],
+        "🩲 הלבשה תחתונה": [
+            "🩲 מוצר הלבשה\nhttps://temu.to/k/e11wn0to19t",
+        ],
+        "🌙 פיג'מות": [
+            "🌙 פיג'מה\nhttps://temu.to/k/e11wn0to19t",
+        ],
+    },
+    "👩 נשים": {
+        "👔 חולצה": [
+            "👔 חולצת נשים\nhttps://temu.to/k/e11wn0to19t",
+        ],
+    },
+    "👦 ילדים": {
+        "👔 חולצה": [
+            "👔 חולצת ילדים\nhttps://temu.to/k/e11wn0to19t",
+        ],
+    },
+    "👧 ילדות": {
+        "👔 חולצה": [
+            "👔 חולצת ילדות\nhttps://temu.to/k/e11wn0to19t",
+        ],
+    },
     "🚲 אביזרי אופניים": {
-        "🪖 קסדה": ["🪖 קסדה - 59.93₪\nhttps://temu.to/k/ejq000x8a2j"],
-        "💡 אורות": ["אין מוצרים עדיין - שלח לי קישור"],
-        "🔒 מנעולים": ["אין מוצרים עדיין - שלח לי קישור"],
-        "🎒 תיקים": ["אין מוצרים עדיין - שלח לי קישור"],
-        "🔧 כלים ותיקון": ["אין מוצרים עדיין - שלח לי קישור"],
-        "🚲 שאר אביזרים": ["אין מוצרים עדיין - שלח לי קישור"],
-    }, 
+        "🚲 הכל אופניים": [
+            "🚲 מוצר אופניים\nhttps://temu.to/k/e11wn0to19t",
+        ],
+    },
+}
 
 user_state = {}
 favorites = {}
-last_shown = {}
 
-def main_keyboard():
-    m = ReplyKeyboardMarkup(resize_keyboard=True)
-    m.row("🏠 לבית", "⚡ גאדג'טים")
-    m.row("🎮 משחקים", "👟 נעליים")
-    m.row("👕 ביגוד", "🚲 אביזרי אופניים")
-    m.row("⭐ מועדפים שלי", "🔥 הכל")
-    return m
+def make_kb(buttons):
+    kb = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    for b in buttons:
+        kb.add(KeyboardButton(b))
+    return kb
 
-def make_keyboard(items, back_text):
-    m = ReplyKeyboardMarkup(resize_keyboard=True)
-    for i in range(0, len(items), 2):
-        if i+1 < len(items):
-            m.row(items[i], items[i+1])
-        else:
-            m.row(items[i])
-    m.row(back_text)
-    return m
+def main_buttons():
+    return list(PRODUCTS.keys()) + ["⭐ מועדפים שלי", "🔥 הכל", "⬅️ חזרה"]
 
-def fav_keyboard():
-    m = ReplyKeyboardMarkup(resize_keyboard=True)
-    m.row("⭐ שמור למועדפים")
-    m.row("⭐ מועדפים שלי")
-    m.row("🔙 חזרה לתפריט הראשי")
-    return m
+def find_node(text):
+    if text in PRODUCTS:
+        return PRODUCTS[text]
+    for cat, subs in PRODUCTS.items():
+        if isinstance(subs, dict):
+            if text in subs:
+                return subs[text]
+            for sub, subs2 in subs.items():
+                if isinstance(subs2, dict) and text in subs2:
+                    return subs2[text]
+    return None
 
-@bot.message_handler(commands=['start'])
-def welcome(message):
-    user_state[message.chat.id] = {"level": "main"}
-    bot.send_message(message.chat.id, "🍆 ברוכים הבאים לדיל החצילוני! 🍆\nבחר קטגוריה למטה 👇\n⭐ שמור מוצרים שאהבת במועדפים!", reply_markup=main_keyboard())
-
-@bot.message_handler(func=lambda m: m.text == "🔙 חזרה לתפריט הראשי")
-def back_main(message):
-    user_state[message.chat.id] = {"level": "main"}
-    welcome(message)
-
-@bot.message_handler(func=lambda m: m.text == "🔙 חזרה")
-def back_one(message):
-    st = user_state.get(message.chat.id, {"level": "main"})
-    if st.get("level") == "subsub":
-        cat = st.get("cat")
-        user_state[message.chat.id] = {"level": "sub", "cat": cat}
-        subs = list(PRODUCTS[cat].keys())
-        bot.send_message(message.chat.id, f"🍆 בחר ב- {cat} 👇", reply_markup=make_keyboard(subs, "🔙 חזרה לתפריט הראשי"))
-        return
-    welcome(message)
-
-@bot.message_handler(func=lambda m: m.text == "⭐ מועדפים שלי")
-def show_favs(message):
-    favs = favorites.get(message.chat.id, [])
-    if not favs:
-        bot.send_message(message.chat.id, "⭐ אין לך עדיין מועדפים\n\nכנס לקטגוריה, תראה מוצר שאהבת ולחץ על ⭐ שמור למועדפים!", reply_markup=main_keyboard())
-        return
-    txt = f"⭐ המועדפים שלך ({len(favs)}):\n\n" + "\n\n".join(favs)
-    m = ReplyKeyboardMarkup(resize_keyboard=True)
-    m.row("🗑️ נקה מועדפים")
-    m.row("🔙 חזרה לתפריט הראשי")
-    bot.send_message(message.chat.id, txt, reply_markup=m)
-
-@bot.message_handler(func=lambda m: m.text == "🗑️ נקה מועדפים")
-def clear_favs(message):
-    favorites[message.chat.id] = []
-    bot.send_message(message.chat.id, "🗑️ ניקיתי את המועדפים שלך!", reply_markup=main_keyboard())
-
-@bot.message_handler(func=lambda m: m.text == "⭐ שמור למועדפים")
-def save_fav(message):
-    items = last_shown.get(message.chat.id, [])
-    if not items:
-        bot.send_message(message.chat.id, "קודם תכנס לקטגוריה ותראה מוצר, ואז תלחץ שמור!", reply_markup=main_keyboard())
-        return
-    if message.chat.id not in favorites:
-        favorites[message.chat.id] = []
-    added = 0
-    for p in items:
-        if p not in favorites[message.chat.id] and "אין מוצרים" not in p:
-            favorites[message.chat.id].append(p)
-            added += 1
-    bot.send_message(message.chat.id, f"⭐ נשמר למועדפים! הוספתי {added} מוצרים\nלחץ על ⭐ מועדפים שלי כדי לראות!", reply_markup=main_keyboard())
-
-@bot.message_handler(func=lambda m: m.text in PRODUCTS)
-def show_sub(message):
-    cat = message.text
-    user_state[message.chat.id] = {"level": "sub", "cat": cat}
-    subs = list(PRODUCTS[cat].keys())
-    bot.send_message(message.chat.id, f"🍆 בחר תת-קטגוריה ב- {cat} 👇", reply_markup=make_keyboard(subs, "🔙 חזרה לתפריט הראשי"))
+@bot.message_handler(commands=["start"])
+def start(m):
+    bot.send_message(m.chat.id, "🍆 ברוכים הבאים לדיל החצילוני!\nבחר קטגוריה 👇", reply_markup=make_kb(main_buttons()))
 
 @bot.message_handler(func=lambda m: True)
-def handle_all(message):
-    text = message.text or ""
-    chat_id = message.chat.id
-    st = user_state.get(chat_id, {"level": "main"})
-    if 'temu.to' in text or 'share.temu.com' in text:
-        post = f"🍆 דיל חדש בדיל החצילוני! 🍆 טימו\n\n{text}\n\nרוצים עוד? תעקבו!\nhttps://t.me/ashermiz26"
-        bot.send_message(CHANNEL, post)
-        bot.reply_to(message, "נשלח לערוץ! ✅", reply_markup=main_keyboard())
+def handle_all(m):
+    text = (m.text or "").strip()
+    if text == "⬅️ חזרה" or text == "חזרה לתפריט הראשי":
+        bot.send_message(m.chat.id, "🍆 תפריט ראשי 👇", reply_markup=make_kb(main_buttons()))
+        return
+    if text == "⭐ מועדפים שלי":
+        favs = favorites.get(m.chat.id, [])
+        if not favs:
+            bot.send_message(m.chat.id, "אין לך עדיין מועדפים ❤️", reply_markup=make_kb(main_buttons()))
+        else:
+            bot.send_message(m.chat.id, "\n\n".join(favs), reply_markup=make_kb(main_buttons()))
         return
     if text == "🔥 הכל":
-        full = "🍆 כל המבצעים - רק הקישורים שלך:\n\n"
         all_items = []
-        def collect(obj):
-            nonlocal full
-            if isinstance(obj, list):
-                for p in obj:
-                    if "אין מוצרים" not in p:
-                        full += p + "\n\n"
-                        all_items.append(p)
-            elif isinstance(obj, dict):
-                for v in obj.values():
-                    collect(v)
-        collect(PRODUCTS)
-        last_shown[chat_id] = all_items
-        bot.send_message(chat_id, full, reply_markup=fav_keyboard())
+        for cat, subs in PRODUCTS.items():
+            for sub, subs2 in subs.items():
+                if isinstance(subs2, dict):
+                    for prod, items in subs2.items():
+                        all_items.extend(items)
+                elif isinstance(subs2, list):
+                    all_items.extend(subs2)
+        bot.send_message(m.chat.id, "\n\n".join(all_items[:20]), reply_markup=make_kb(main_buttons()))
         return
-    if st.get("level") == "sub":
-        cat = st.get("cat")
-        if cat and text in PRODUCTS.get(cat, {}):
-            val = PRODUCTS[cat][text]
-            if isinstance(val, dict):
-                user_state[chat_id] = {"level": "subsub", "cat": cat, "sub": text}
-                subs = list(val.keys())
-                bot.send_message(chat_id, f"🍆 בחר ב- {text} 👇", reply_markup=make_keyboard(subs, "🔙 חזרה"))
-                return
-            else:
-                last_shown[chat_id] = val
-                txt = f"🍆 מבצעים - {cat} > {text}:\n\n" + "\n\n".join(val)
-                bot.send_message(chat_id, txt, reply_markup=fav_keyboard())
-                return
-    if st.get("level") == "subsub":
-        cat = st.get("cat"); sub = st.get("sub")
-        if cat and sub and text in PRODUCTS.get(cat, {}).get(sub, {}):
-            products = PRODUCTS[cat][sub][text]
-            last_shown[chat_id] = products
-            txt = f"🍆 מבצעים - {cat} > {sub} > {text}:\n\n" + "\n\n".join(products)
-            bot.send_message(chat_id, txt, reply_markup=fav_keyboard())
-            return
-    bot.send_message(chat_id, "🍆 בחר קטגוריה למטה 👇", reply_markup=main_keyboard())
+    node = find_node(text)
+    if isinstance(node, dict):
+        btns = list(node.keys()) + ["⬅️ חזרה"]
+        bot.send_message(m.chat.id, f"🍆 {text} - בחר 👇", reply_markup=make_kb(btns))
+        return
+    if isinstance(node, list):
+        msg = f"🍆 {text} - מבצעים 👇\n\n" + "\n\n".join(node)
+        bot.send_message(m.chat.id, msg, reply_markup=make_kb(main_buttons()))
+        return
+    bot.send_message(m.chat.id, "🍆 תפריט ראשי 👇", reply_markup=make_kb(main_buttons()))
 
-print("דיל החצילוני רץ - עם מועדפים!")
-port = int(os.environ.get("PORT", 10000))
-threading.Thread(target=lambda: app.run(host="0.0.0.0", port=port)).start()
-bot.polling()
+if __name__ == "__main__":
+    print("Bot running...")
+    bot.infinity_polling()
