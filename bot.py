@@ -29,6 +29,7 @@ PRODUCTS = {
     "🎮 משחקים": {
         "🎮 הכל משחקים": [
             "🎮 מוצר משחק\nhttps://temu.to/k/e11wn0to19t",
+             "https://temu.to/k/ejtsqt0kc5m",
         ],
     },
     "👟 נעליים": {
