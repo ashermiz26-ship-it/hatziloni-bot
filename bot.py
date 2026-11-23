@@ -1,8 +1,7 @@
 import os
 import telebot
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton
-
-TOKEN = os.environ.get("BOT_TOKEN", "")
+TOKEN = os.environ.get("BOT_TOKEN", "") or os.environ.get("TELEGRAM_TOKEN", "") or os.environ.get("TELEGRAM_BOT_TOKEN", "") or os.environ.get("TOKEN", "") or os.environ.get("API_TOKEN", "")
 bot = telebot.TeleBot(TOKEN)
 
 PRODUCTS = {
