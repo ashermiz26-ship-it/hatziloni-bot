@@ -1,6 +1,16 @@
 import os
+from threading import Thread
+from flask import Flask
 import telebot
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton
+
+app = Flask(__name__)
+@app.route('/')
+def home():
+    return "Bot is alive!"
+def run_web():
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+
 TOKEN = os.environ.get("BOT_TOKEN", "") or os.environ.get("TELEGRAM_TOKEN", "") or os.environ.get("TELEGRAM_BOT_TOKEN", "") or os.environ.get("TOKEN", "") or os.environ.get("API_TOKEN", "")
 bot = telebot.TeleBot(TOKEN)
 
@@ -48,17 +58,17 @@ PRODUCTS = {
         ],
     },
     "👩 נשים": {
-        "👔 חולצה": [
+        "👔 חולצת נשים": [
             "👔 חולצת נשים\nhttps://temu.to/k/e11wn0to19t",
         ],
     },
     "👦 ילדים": {
-        "👔 חולצה": [
+        "👔 חולצת ילדים": [
             "👔 חולצת ילדים\nhttps://temu.to/k/e11wn0to19t",
         ],
     },
     "👧 ילדות": {
-        "👔 חולצה": [
+        "👔 חולצת ילדות": [
             "👔 חולצת ילדות\nhttps://temu.to/k/e11wn0to19t",
         ],
     },
@@ -68,9 +78,6 @@ PRODUCTS = {
         ],
     },
 }
-
-user_state = {}
-favorites = {}
 
 def make_kb(buttons):
     kb = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -104,11 +111,7 @@ def handle_all(m):
         bot.send_message(m.chat.id, "🍆 תפריט ראשי 👇", reply_markup=make_kb(main_buttons()))
         return
     if text == "⭐ מועדפים שלי":
-        favs = favorites.get(m.chat.id, [])
-        if not favs:
-            bot.send_message(m.chat.id, "אין לך עדיין מועדפים ❤️", reply_markup=make_kb(main_buttons()))
-        else:
-            bot.send_message(m.chat.id, "\n\n".join(favs), reply_markup=make_kb(main_buttons()))
+        bot.send_message(m.chat.id, "אין לך עדיין מועדפים ❤️", reply_markup=make_kb(main_buttons()))
         return
     if text == "🔥 הכל":
         all_items = []
@@ -133,5 +136,6 @@ def handle_all(m):
     bot.send_message(m.chat.id, "🍆 תפריט ראשי 👇", reply_markup=make_kb(main_buttons()))
 
 if __name__ == "__main__":
+    Thread(target=run_web, daemon=True).start()
     print("Bot running...")
     bot.infinity_polling()
